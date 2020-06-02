@@ -12,7 +12,13 @@ public class Main {
         necklace.sort_by_Price();
         System.out.println("Відсортовано по ціні:");
         System.out.println(necklace);
-        necklace.findTransp(15, 20);
+        Necklace stone_range = necklace.get_range();
+        if (stone_range.getStones().length!=0){
+            System.out.println("Підходяще каміння:");
+            System.out.println(stone_range);
+        } else {
+            System.out.println("Підходящого каміння у намисті немає");
+        }
         System.out.println("Done");
     }
 }

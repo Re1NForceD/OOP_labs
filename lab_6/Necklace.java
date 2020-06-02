@@ -49,27 +49,55 @@ public class Necklace {
         Arrays.sort(stones, StonePriceComparator);
     }
 
-    private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> {
+    private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
 
-        int price1 = stone1.getPrice();
-        int price2 = stone2.getPrice();
+    public Necklace get_range(){
+        boolean tr = true;
+        int a = 0;
+        int b = 0;
+        System.out.println("Знайдемо камінь у намисті, що відповідає заданому діапазону прозорості.");
+        while (tr) {
+            try {
+                System.out.println("Введіть нижню межу діапазону(від):");
+                Scanner scan = new Scanner(System.in);
+                String scan_a = scan.nextLine();
+                a = Integer.parseInt(scan_a);
+                tr = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Введіть число!!!");
+                tr = true;
+            }
+        }
+        tr = true;
+        while (tr) {
+            try {
+                System.out.println("Введіть верхню межу діапазону(до):");
+                Scanner scan = new Scanner(System.in);
+                String scan_b = scan.nextLine();
+                b = Integer.parseInt(scan_b);
+                tr = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Введіть число!!!");
+                tr = true;
+            }finally {
+                if (!tr) {
+                    if (a>=b) {
+                        System.out.println("Верхня межа має бути більшою ніж нижня!!!");
+                        tr = true;
+                    }
+                }
+            }
+        }
+        return this.findTransp(a, b);
+    }
 
-        return price2 - price1;
-    };
-
-    public void findTransp(int a, int b){
+    public Necklace findTransp(int a, int b){
         Necklace find = new Necklace();
         for (Stone stone: stones){
             if (a<=stone.getTransparency() && stone.getTransparency()<=b){
                 find.addStone(stone);
             }
         }
-        if (find.getStones().length!=0){
-            System.out.println("Каміння підходяще по прозорості:");
-            System.out.println(find);
-        }
-        else{
-            System.out.println("Піходящого каміння в намисті немає\n");
-        }
+        return find;
     }
 }

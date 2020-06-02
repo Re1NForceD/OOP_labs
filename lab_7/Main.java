@@ -15,12 +15,7 @@ public class Main {
         necklace1.add(new Semiprecious_Stones(30, 2400, 60));
         necklace1.add(new Gemstone(50, 2000, 25));
         Necklace necklace2 = new Necklace(necklace1);
-        necklace2.addAll(necklace1);
-        necklace2.addAll(necklace1);
-        necklace2.addAll(necklace1);
-        necklace2.addAll(necklace1);
-        necklace2.addAll(necklace1);
-        necklace2.addAll(necklace1);
+        necklace2.add(new Gemstone(55, 2100, 20));
         System.out.printf("Загальна ціна: %d грн\n\n", necklace2.getSummary_price());
         System.out.printf("Загальна вага: %d карат\n\n", necklace2.getSummary_weight());
         necklace2.sort_by_Price();

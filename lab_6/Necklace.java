@@ -2,6 +2,9 @@ package lab_6;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
+
+import lab_8.EmptyNecklaceException;
 
 public class Necklace {
 
@@ -37,10 +40,8 @@ public class Necklace {
     @Override
     public String toString(){
         StringBuilder for_pr = new StringBuilder();
-        int i = 1;
-        for (Stone stone: stones){
-            for_pr.append(i).append(" камінь: Прозорість - ").append(stone.getTransparency()).append(", Ціна - ").append(stone.getPrice()).append(", Вага - ").append(stone.getWeight()).append("\n");
-            i += 1;
+        for (int i=0; i<this.getStones().length; i++){
+            for_pr.append(i+1).append(" камінь: ").append(stones[i].toString()).append("\n");
         }
         return for_pr.toString();
     }
@@ -51,44 +52,49 @@ public class Necklace {
 
     private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
 
-    public Necklace get_range(){
-        boolean tr = true;
-        int a = 0;
-        int b = 0;
-        System.out.println("Знайдемо камінь у намисті, що відповідає заданому діапазону прозорості.");
-        while (tr) {
-            try {
-                System.out.println("Введіть нижню межу діапазону(від):");
-                Scanner scan = new Scanner(System.in);
-                String scan_a = scan.nextLine();
-                a = Integer.parseInt(scan_a);
-                tr = false;
-            } catch (NumberFormatException e) {
-                System.out.println("Введіть число!!!");
-                tr = true;
+    public Necklace get_range()
+            throws EmptyNecklaceException{
+        if (stones.length==0){
+            throw new EmptyNecklaceException("Намисто не містить каміння!");
+        } else {
+            boolean tr = true;
+            int a = 0;
+            int b = 0;
+            System.out.println("Знайдемо камінь у намисті, що відповідає заданому діапазону прозорості.");
+            while (tr) {
+                try {
+                    System.out.println("Введіть нижню межу діапазону(від):");
+                    Scanner scan = new Scanner(System.in);
+                    String scan_a = scan.nextLine();
+                    a = Integer.parseInt(scan_a);
+                    tr = false;
+                } catch (NumberFormatException e) {
+                    System.out.println("Введіть число!!!");
+                    tr = true;
+                }
             }
-        }
-        tr = true;
-        while (tr) {
-            try {
-                System.out.println("Введіть верхню межу діапазону(до):");
-                Scanner scan = new Scanner(System.in);
-                String scan_b = scan.nextLine();
-                b = Integer.parseInt(scan_b);
-                tr = false;
-            } catch (NumberFormatException e) {
-                System.out.println("Введіть число!!!");
-                tr = true;
-            }finally {
-                if (!tr) {
-                    if (a>=b) {
-                        System.out.println("Верхня межа має бути більшою ніж нижня!!!");
-                        tr = true;
+            tr = true;
+            while (tr) {
+                try {
+                    System.out.println("Введіть верхню межу діапазону(до):");
+                    Scanner scan = new Scanner(System.in);
+                    String scan_b = scan.nextLine();
+                    b = Integer.parseInt(scan_b);
+                    tr = false;
+                } catch (NumberFormatException e) {
+                    System.out.println("Введіть число!!!");
+                    tr = true;
+                }finally {
+                    if (!tr) {
+                        if (a>=b) {
+                            System.out.println("Верхня межа має бути більшою ніж нижня!!!");
+                            tr = true;
+                        }
                     }
                 }
             }
+            return this.findTransp(a, b);
         }
-        return this.findTransp(a, b);
     }
 
     public Necklace findTransp(int a, int b){

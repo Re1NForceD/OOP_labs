@@ -1,6 +1,7 @@
 package lab_7;
 
 import lab_6.Stone;
+import lab_8.EmptyNecklaceException;
 
 import java.util.*;
 
@@ -43,59 +44,55 @@ public class Necklace implements Set<Stone> {
         return summary_weight;
     }
 
-    @Override
-    public String toString(){
-        StringBuilder for_pr = new StringBuilder();
-        for (int j=0; j<size; j++){
-            for_pr.append(j+1).append(" камінь: Прозорість - ").append(elements[j].getTransparency()).append(", Ціна - ").append(elements[j].getPrice()).append(", Вага - ").append(elements[j].getWeight()).append("\n");
-        }
-        return for_pr.toString();
-    }
-
     public void sort_by_Price(){
         Arrays.sort(elements, 0, size, StonePriceComparator);
     }
 
     private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
 
-    public Necklace get_range(){
-        boolean tr = true;
-        int a = 0;
-        int b = 0;
-        System.out.println("Знайдемо камінь у намисті, що відповідає заданому діапазону прозорості.");
-        while (tr) {
-            try {
-                System.out.println("Введіть нижню межу діапазону(від):");
-                Scanner scan = new Scanner(System.in);
-                String scan_a = scan.nextLine();
-                a = Integer.parseInt(scan_a);
-                tr = false;
-            } catch (NumberFormatException e) {
-                System.out.println("Введіть число!!!");
-                tr = true;
+    public Necklace get_range()
+            throws EmptyNecklaceException {
+        if (size==0){
+            throw new EmptyNecklaceException("Намисто не містить каміння!");
+        } else {
+            boolean tr = true;
+            int a = 0;
+            int b = 0;
+            System.out.println("Знайдемо камінь у намисті, що відповідає заданому діапазону прозорості.");
+            while (tr) {
+                try {
+                    System.out.println("Введіть нижню межу діапазону(від):");
+                    Scanner scan = new Scanner(System.in);
+                    String scan_a = scan.nextLine();
+                    a = Integer.parseInt(scan_a);
+                    tr = false;
+                } catch (NumberFormatException e) {
+                    System.out.println("Введіть число!!!");
+                    tr = true;
+                }
             }
-        }
-        tr = true;
-        while (tr) {
-            try {
-                System.out.println("Введіть верхню межу діапазону(до):");
-                Scanner scan = new Scanner(System.in);
-                String scan_b = scan.nextLine();
-                b = Integer.parseInt(scan_b);
-                tr = false;
-            } catch (NumberFormatException e) {
-                System.out.println("Введіть число!!!");
-                tr = true;
-            }finally {
-                if (!tr) {
-                    if (a>=b) {
-                        System.out.println("Верхня межа має бути більшою ніж нижня!!!");
-                        tr = true;
+            tr = true;
+            while (tr) {
+                try {
+                    System.out.println("Введіть верхню межу діапазону(до):");
+                    Scanner scan = new Scanner(System.in);
+                    String scan_b = scan.nextLine();
+                    b = Integer.parseInt(scan_b);
+                    tr = false;
+                } catch (NumberFormatException e) {
+                    System.out.println("Введіть число!!!");
+                    tr = true;
+                }finally {
+                    if (!tr) {
+                        if (a>=b) {
+                            System.out.println("Верхня межа має бути більшою ніж нижня!!!");
+                            tr = true;
+                        }
                     }
                 }
             }
+            return this.findTransp(a, b);
         }
-        return this.findTransp(a, b);
     }
 
     public Necklace findTransp(int a, int b){
@@ -106,6 +103,24 @@ public class Necklace implements Set<Stone> {
             }
         }
         return find;
+    }
+
+    public boolean equals(Collection<? extends Stone> c){
+        for (Stone stone : c){
+            if (!contains(stone)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder for_pr = new StringBuilder();
+        for (int i=0; i<size; i++){
+            for_pr.append(i+1).append(" камінь: ").append(elements[i].toString()).append("\n");
+        }
+        return for_pr.toString();
     }
 
     @Override
@@ -191,7 +206,14 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return size==elements.length;
+      AtomicBoolean state = new AtomicBoolean(false);
+      c.forEach(stone -> {
+          if (!contains(stone)){
+              add((Stone) stone);
+              state.set(true);
+          }
+      });
+      return state.get();
     }
 
     @Override
@@ -204,17 +226,26 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+      boolean flag = true;
+      for (Stone obj : this) {
+          flag = c.contains(obj);
+          if (!flag)
+              remove(obj);
+      }
+      return !flag;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        elements = new Stone[INITIAL_CAPACITY];
-        return false;
+      boolean flag = false;
+      for (Object object : c) {
+          flag = remove(object);
+      }
+      return flag;
     }
 
     @Override
     public void clear() {
-
+        elements = new Stone[INITIAL_CAPACITY];
     }
 }

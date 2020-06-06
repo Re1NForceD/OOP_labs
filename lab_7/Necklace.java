@@ -4,6 +4,7 @@ import lab_6.Stone;
 import lab_8.EmptyNecklaceException;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Necklace implements Set<Stone> {
     private static final int INITIAL_CAPACITY = 15;
@@ -48,7 +49,7 @@ public class Necklace implements Set<Stone> {
         Arrays.sort(elements, 0, size, StonePriceComparator);
     }
 
-    private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
+    private static final Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
 
     public Necklace get_range()
             throws EmptyNecklaceException {
@@ -82,31 +83,31 @@ public class Necklace implements Set<Stone> {
                 } catch (NumberFormatException e) {
                     System.out.println("Введіть число!!!");
                     tr = true;
-                }finally {
+                } finally {
                     if (!tr) {
-                        if (a>=b) {
+                        if (a >= b) {
                             System.out.println("Верхня межа має бути більшою ніж нижня!!!");
                             tr = true;
                         }
                     }
                 }
             }
-            return this.findTransp(a, b);
+            return findTransp(a, b);
         }
     }
 
     public Necklace findTransp(int a, int b){
         Necklace find = new Necklace();
-        for (Stone stone: elements){
-            if (a<=stone.getTransparency() && stone.getTransparency()<=b){
-                find.add(stone);
+        for (int i=0; i<size; i++){
+            if (a<=elements[i].getTransparency() && elements[i].getTransparency()<=b){
+                find.add(elements[i]);
             }
         }
         return find;
     }
 
-    public boolean equals(Collection<? extends Stone> c){
-        for (Stone stone : c){
+    public boolean equals(Collection<?> c){
+        for (Object stone : c){
             if (!contains(stone)){
                 return false;
             }
@@ -118,7 +119,10 @@ public class Necklace implements Set<Stone> {
     public String toString(){
         StringBuilder for_pr = new StringBuilder();
         for (int i=0; i<size; i++){
-            for_pr.append(i+1).append(" камінь: ").append(elements[i].toString()).append("\n");
+            for_pr.append(i+1).append(" камінь: ").append(elements[i].toString());
+            if (i<size-1){
+                for_pr.append("\n");
+            }
         }
         return for_pr.toString();
     }
@@ -172,7 +176,7 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean add(Stone Stone) {
-        if (size<elements.length) {
+        if (size<elements.length & !contains(Stone)) {
             elements[size++] = Stone;
         }
         else if (size==INITIAL_CAPACITY && !resize){
@@ -191,61 +195,79 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean remove(Object o) {
-        int index = Arrays.asList(elements).indexOf(o);
-        int cur_size = size;
-        size = 0;
-        Stone[] copied = elements;
-        elements = new Stone[elements.length];
-        for (int i=0; i<cur_size; i++){
-            if (i!=index){
-                this.add(copied[i]);
+        if (contains(o)) {
+            int index = Arrays.asList(elements).indexOf(o);
+            int cur_size = size;
+            size = 0;
+            Stone[] copied = elements;
+            elements = new Stone[elements.length];
+            for (int i = 0; i < cur_size; i++) {
+                if (i != index) {
+                    this.add(copied[i]);
+                }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-      AtomicBoolean state = new AtomicBoolean(false);
-      c.forEach(stone -> {
-          if (!contains(stone)){
-              add((Stone) stone);
-              state.set(true);
-          }
-      });
-      return state.get();
+        AtomicBoolean state = new AtomicBoolean(false);
+        c.forEach(stone -> {
+            if (!contains(stone)){
+                add((Stone) stone);
+                state.set(true);
+            }
+        });
+        return state.get();
     }
 
     @Override
     public boolean addAll(Collection<? extends Stone> c) {
-        for (Stone Stone : c) {
-            add(Stone);
+        for (Stone stone : c) {
+            add(stone);
         }
         return true  ;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-      boolean flag = true;
-      for (Stone obj : this) {
-          flag = c.contains(obj);
-          if (!flag)
-              remove(obj);
-      }
-      return !flag;
+        boolean flag;
+        boolean changed = false;
+        for (Object obj : c) {
+            flag = !contains(obj);
+            if (flag){
+                if (!changed){
+                    changed=true;
+                }
+                remove(obj);
+            }
+        }
+        return changed;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-      boolean flag = false;
-      for (Object object : c) {
-          flag = remove(object);
-      }
-      return flag;
+        boolean flag;
+        boolean changed = false;
+        for (Object obj : c) {
+            flag = contains(obj);
+            if (flag){
+                if (!changed){
+                    changed=true;
+                }
+                remove(obj);
+            }
+        }
+        return changed;
     }
 
     @Override
     public void clear() {
         elements = new Stone[INITIAL_CAPACITY];
+        size = 0;
+        resize = false;
     }
 }

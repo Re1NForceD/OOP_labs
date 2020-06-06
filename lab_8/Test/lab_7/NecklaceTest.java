@@ -118,11 +118,10 @@ public class NecklaceTest {
         Stone stone1 = new Gemstone(30, 3400, 40);
         Stone stone2 = new Not_a_gem(0, 100, 45);
         Necklace necklace1 = new Necklace(stone1);
-        Necklace necklace2 = new Necklace(stone2);
-        necklace2.add(stone2);
+        necklace1.add(stone2);
+        Necklace necklace2 = new Necklace(necklace1);
         necklace1.containsAll(necklace2);
-        Assert.assertEquals(2, necklace1.size());
-        Assert.assertTrue(necklace1.contains(stone2));
+        Assert.assertTrue(necklace2.containsAll(necklace1));
     }
 
     @Test
@@ -171,6 +170,6 @@ public class NecklaceTest {
         Necklace necklace = new Necklace(stone);
         Necklace expected = new Necklace();
         necklace.clear();
-        Assert.assertTrue(necklace.size()==0 && necklace.equals(expected));
+        Assert.assertTrue(necklace.equals(expected));
     }
 }

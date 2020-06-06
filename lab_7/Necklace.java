@@ -214,11 +214,10 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        AtomicBoolean state = new AtomicBoolean(false);
+        AtomicBoolean state = new AtomicBoolean(true);
         c.forEach(stone -> {
-            if (!contains(stone)){
-                add((Stone) stone);
-                state.set(true);
+            if (!contains(stone)) {
+                state.set(false);
             }
         });
         return state.get();

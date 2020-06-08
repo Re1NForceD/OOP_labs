@@ -32,7 +32,7 @@ public class NecklaceTest {
         necklace1.add(stone1);
         necklace1.sort_by_Price();
         Necklace necklace2 = new Necklace(stone1);
-        necklace1.add(stone2);
+        necklace2.add(stone2);
         Assert.assertTrue(necklace1.equals(necklace2));
     }
 

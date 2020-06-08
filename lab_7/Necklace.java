@@ -107,8 +107,10 @@ public class Necklace implements Set<Stone> {
     }
 
     public boolean equals(Collection<?> c){
-        for (Object stone : c){
-            if (!contains(stone)){
+        Iterator<?> iter1 = iterator();
+        Iterator<?> iter2 = c.iterator();
+        while (iter1.hasNext() & iter2.hasNext()) {
+            if (!iter1.next().equals(iter2.next())){
                 return false;
             }
         }

@@ -146,7 +146,7 @@ public class NecklaceTest {
         Necklace necklace2 = new Necklace(stone2);
         necklace2.add(stone3);
         necklace1.retainAll(necklace2);
-        Assert.assertTrue(necklace1.equals(necklace2));
+        Assert.assertTrue(necklace1.containsAll(necklace2));
     }
 
     @Test

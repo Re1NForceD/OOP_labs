@@ -21,38 +21,38 @@ public class Necklace {
         this.stones[prom.length] = stone;
     }
 
-    public int getSummary_price(){
-        int summary_price = 0;
+    public int getSummaryPrice(){
+        int summaryPrice = 0;
         for (Stone stone: stones){
-            summary_price += stone.getPrice();
+            summaryPrice += stone.getPrice();
         }
-        return summary_price;
+        return summaryPrice;
     }
 
-    public int getSummary_weight(){
-        int summary_weight = 0;
+    public int getSummaryWeight(){
+        int summaryWeight = 0;
         for (Stone stone: stones){
-            summary_weight += stone.getWeight();
+            summaryWeight += stone.getWeight();
         }
-        return summary_weight;
+        return summaryWeight;
     }
 
     @Override
     public String toString(){
-        StringBuilder for_pr = new StringBuilder();
+        StringBuilder toPrint = new StringBuilder();
         for (int i=0; i<this.getStones().length; i++){
-            for_pr.append(i+1).append(" камінь: ").append(stones[i].toString()).append("\n");
+            toPrint.append(i+1).append(" камінь: ").append(stones[i].toString()).append("\n");
         }
-        return for_pr.toString();
+        return toPrint.toString();
     }
 
-    public void sort_by_Price(){
+    public void sortByPrice(){
         Arrays.sort(stones, StonePriceComparator);
     }
 
-    private static Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
+    private static final Comparator<Stone> StonePriceComparator = (stone1, stone2) -> stone2.getPrice() - stone1.getPrice();
 
-    public Necklace get_range()
+    public Necklace getRange()
             throws EmptyNecklaceException{
         if (stones.length==0){
             throw new EmptyNecklaceException("Намисто не містить каміння!");
@@ -65,8 +65,8 @@ public class Necklace {
                 try {
                     System.out.println("Введіть нижню межу діапазону(від):");
                     Scanner scan = new Scanner(System.in);
-                    String scan_a = scan.nextLine();
-                    a = Integer.parseInt(scan_a);
+                    String scanA = scan.nextLine();
+                    a = Integer.parseInt(scanA);
                     tr = false;
                 } catch (NumberFormatException e) {
                     System.out.println("Введіть число!!!");
@@ -78,8 +78,8 @@ public class Necklace {
                 try {
                     System.out.println("Введіть верхню межу діапазону(до):");
                     Scanner scan = new Scanner(System.in);
-                    String scan_b = scan.nextLine();
-                    b = Integer.parseInt(scan_b);
+                    String scanB = scan.nextLine();
+                    b = Integer.parseInt(scanB);
                     tr = false;
                 } catch (NumberFormatException e) {
                     System.out.println("Введіть число!!!");

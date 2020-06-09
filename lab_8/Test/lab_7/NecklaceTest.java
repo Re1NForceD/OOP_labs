@@ -1,8 +1,8 @@
 package lab_7;
 
 import lab_6.Gemstone;
-import lab_6.Not_a_gem;
-import lab_6.Semiprecious_Stones;
+import lab_6.NotAGem;
+import lab_6.SemipreciousStones;
 import lab_6.Stone;
 
 import org.junit.Assert;
@@ -11,26 +11,26 @@ import org.junit.Test;
 public class NecklaceTest {
 
     @Test
-    public void getSummary_price() {
+    public void getSummaryPrice() {
         Stone stone = new Gemstone(30, 3400, 40);
         Necklace necklace = new Necklace(stone);
-        Assert.assertEquals(necklace.getSummary_price(), stone.getPrice());
+        Assert.assertEquals(necklace.getSummaryPrice(), stone.getPrice());
     }
 
     @Test
-    public void getSummary_weight() {
+    public void getSummaryWeight() {
         Stone stone = new Gemstone(30, 3400, 40);
         Necklace necklace = new Necklace(stone);
-        Assert.assertEquals(necklace.getSummary_weight(), stone.getWeight());
+        Assert.assertEquals(necklace.getSummaryWeight(), stone.getWeight());
     }
 
     @Test
-    public void sort_by_Price() {
+    public void sortByPrice() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
+        Stone stone2 = new NotAGem(0, 100, 45);
         Necklace necklace1 = new Necklace(stone2);
         necklace1.add(stone1);
-        necklace1.sort_by_Price();
+        necklace1.sortByPrice();
         Necklace necklace2 = new Necklace(stone1);
         necklace2.add(stone2);
         Assert.assertTrue(necklace1.equals(necklace2));
@@ -39,7 +39,7 @@ public class NecklaceTest {
     @Test
     public void findTransp() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
+        Stone stone2 = new NotAGem(0, 100, 45);
         Necklace necklace = new Necklace(stone1);
         necklace.add(stone2);
         Necklace actual = necklace.findTransp(0, 29);
@@ -105,18 +105,17 @@ public class NecklaceTest {
     @Test
     public void remove() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
+        Stone stone2 = new NotAGem(0, 100, 45);
         Necklace necklace = new Necklace(stone1);
         necklace.add(stone2);
         necklace.remove(stone1);
-        Assert.assertEquals(1, necklace.size());
-        Assert.assertFalse(necklace.contains(stone1));
+        Assert.assertFalse(necklace.contains(stone1) & 1!=necklace.size());
     }
 
     @Test
     public void containsAll() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
+        Stone stone2 = new NotAGem(0, 100, 45);
         Necklace necklace1 = new Necklace(stone1);
         necklace1.add(stone2);
         Necklace necklace2 = new Necklace(necklace1);
@@ -127,7 +126,7 @@ public class NecklaceTest {
     @Test
     public void addAll() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
+        Stone stone2 = new NotAGem(0, 100, 45);
         Necklace necklace1 = new Necklace(stone1);
         necklace1.add(stone2);
         Necklace necklace2 = new Necklace();
@@ -138,8 +137,8 @@ public class NecklaceTest {
     @Test
     public void retainAll() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
-        Stone stone3 = new Semiprecious_Stones(15, 180, 38);
+        Stone stone2 = new NotAGem(0, 100, 45);
+        Stone stone3 = new SemipreciousStones(15, 180, 38);
         Necklace necklace1 = new Necklace(stone1);
         necklace1.add(stone2);
         necklace1.add(stone3);
@@ -152,8 +151,8 @@ public class NecklaceTest {
     @Test
     public void removeAll() {
         Stone stone1 = new Gemstone(30, 3400, 40);
-        Stone stone2 = new Not_a_gem(0, 100, 45);
-        Stone stone3 = new Semiprecious_Stones(15, 180, 38);
+        Stone stone2 = new NotAGem(0, 100, 45);
+        Stone stone3 = new SemipreciousStones(15, 180, 38);
         Necklace necklace1 = new Necklace(stone1);
         necklace1.add(stone2);
         necklace1.add(stone3);

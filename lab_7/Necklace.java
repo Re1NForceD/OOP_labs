@@ -4,7 +4,6 @@ import lab_6.Stone;
 import lab_8.EmptyNecklaceException;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Necklace implements Set<Stone> {
     private static final int INITIAL_CAPACITY = 15;
@@ -216,13 +215,12 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        AtomicBoolean state = new AtomicBoolean(true);
-        c.forEach(stone -> {
+        for (Stone stone : this) {
             if (!contains(stone)) {
-                state.set(false);
+                return false;
             }
-        });
-        return state.get();
+        }
+        return true;
     }
 
     @Override

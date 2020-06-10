@@ -180,16 +180,15 @@ public class Necklace implements Set<Stone> {
         if (size<elements.length & !contains(stone)) {
             elements[size++] = stone;
         }
-        else if (size==INITIAL_CAPACITY && !resize){
-            resize = true;
+        else if (size==elements.lenght){
             size = 0;
             Stone[] copied = elements;
-            elements = new Stone[(int)(INITIAL_CAPACITY*1.30)];
+            elements = new Stone[(int)(elements.lenght*1.30)];
             this.addAll(Arrays.asList(copied));
             this.add(stone);
         }
         else {
-            System.out.println("Досягнута максимальна кількість елементів!!!");
+            System.out.println("Досягнута максимальна кількість елементів або елемент уже міститься в насмисті");
         }
         return true;
     }
@@ -267,6 +266,5 @@ public class Necklace implements Set<Stone> {
     public void clear() {
         elements = new Stone[INITIAL_CAPACITY];
         size = 0;
-        resize = false;
     }
 }

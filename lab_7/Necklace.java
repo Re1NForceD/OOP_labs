@@ -176,9 +176,9 @@ public class Necklace implements Set<Stone> {
     }
 
     @Override
-    public boolean add(Stone Stone) {
-        if (size<elements.length & !contains(Stone)) {
-            elements[size++] = Stone;
+    public boolean add(Stone stone) {
+        if (size<elements.length & !contains(stone)) {
+            elements[size++] = stone;
         }
         else if (size==INITIAL_CAPACITY && !resize){
             resize = true;
@@ -186,7 +186,7 @@ public class Necklace implements Set<Stone> {
             Stone[] copied = elements;
             elements = new Stone[(int)(INITIAL_CAPACITY*1.30)];
             this.addAll(Arrays.asList(copied));
-            this.add(Stone);
+            this.add(stone);
         }
         else {
             System.out.println("Досягнута максимальна кількість елементів!!!");

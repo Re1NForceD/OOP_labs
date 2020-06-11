@@ -9,7 +9,6 @@ public class Necklace implements Set<Stone> {
     private static final int INITIAL_CAPACITY = 15;
     private Stone[] elements = new Stone[INITIAL_CAPACITY];
     private int size = 0;
-    private boolean resize = false;
 
     public Necklace() {
     }
@@ -188,7 +187,7 @@ public class Necklace implements Set<Stone> {
             this.add(stone);
         }
         else {
-            System.out.println("Досягнута максимальна кількість елементів або елемент уже міститься в насмисті");
+            System.out.println("Елемент уже міститься в насмисті");
         }
         return true;
     }
@@ -227,7 +226,7 @@ public class Necklace implements Set<Stone> {
         for (Stone stone : c) {
             add(stone);
         }
-        return true  ;
+        return true;
     }
 
     @Override

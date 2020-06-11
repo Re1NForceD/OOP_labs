@@ -109,7 +109,7 @@ public class NecklaceTest {
         Necklace necklace = new Necklace(stone1);
         necklace.add(stone2);
         necklace.remove(stone1);
-        Assert.assertFalse(necklace.contains(stone1) & 1!=necklace.size());
+        Assert.assertFalse(necklace.contains(stone1) && 1!=necklace.size());
     }
 
     @Test

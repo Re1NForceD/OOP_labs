@@ -10,7 +10,7 @@ public abstract class Stone {
 
     public Stone(int transparency, int price, int weight)
             throws WrongStoneValueException{
-        if (transparency<0 | price<=0 | weight<=0){
+        if (transparency<0 || price<=0 || weight<=0){
             throw new WrongStoneValueException("Якийсь з параметрів не коректний!");
         }
         this.transparency = transparency;

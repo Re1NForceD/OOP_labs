@@ -176,7 +176,7 @@ public class Necklace implements Set<Stone> {
 
     @Override
     public boolean add(Stone stone) {
-        if (size<elements.length & !contains(stone)) {
+        if (size<elements.length && !contains(stone)) {
             elements[size++] = stone;
         }
         else if (size==elements.lenght){
